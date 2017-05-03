@@ -1,7 +1,7 @@
 Description
 ---------------
 
-This plugin allows you to jump between Python's classes in current active view.
+This plugin allows you to jump between Python's classes in active view.
 
 
 
@@ -15,7 +15,7 @@ and clone this repository
 git clone git@github.com:KarolJagodzinski/sublime_classjumper.git
 ```
 
-and than you have to configure key bindings in your settings
+then you have to configure key bindings in your settings
 **Preferences -> Key Bindings** and add following
 
 ```
@@ -25,10 +25,10 @@ and than you have to configure key bindings in your settings
 ]
 ```
 
-where <keys> should be changed to proper key binding i.e.
+where `<keys>` should be changed to proper key bindings i.e.
 ```
 [
     { "keys": ["super+control+c+up"], "command": "class_jumper", "args": {"jump_to": "up"} },
-    { "keys": ["super+control+c+up"], "command": "class_jumper", "args": {"jump_to": "down"} }
+    { "keys": ["super+control+c+down"], "command": "class_jumper", "args": {"jump_to": "down"} }
 ]
 ```
