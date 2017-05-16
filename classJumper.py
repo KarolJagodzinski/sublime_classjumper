@@ -74,7 +74,7 @@ class ClassJumperCommand(sublime_plugin.TextCommand):
         return new_pointer
 
     def run(self, edit, jump_to=None):
-        all_classes = self.view.find_all(r'class?\s{1}\w+')
+        all_classes = self.view.find_all(r'(^|\s+)(class?)(\s{1}\w+\()')
         selected = self.view.sel()
         pointer_position = selected[0].begin()
 
