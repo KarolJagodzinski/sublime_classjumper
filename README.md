@@ -1,8 +1,7 @@
 Description
 ---------------
 
-This plugin allows you to jump between Python's classes in active view.
-
+This plugin allows you to jump between Python's classes and methods in active view.
 
 
 Using this tool
@@ -20,15 +19,19 @@ then you have to configure key bindings in your settings
 
 ```
 [
-    { "keys": [<keys>], "command": "class_jumper", "args": {"jump_to": "up"} },
-    { "keys": [<keys>], "command": "class_jumper", "args": {"jump_to": "down"} }
+    { "keys": [<keys>], "command": "class_jumper", "args": {"direction": "up, "jump_to": "class"} },
+    { "keys": [<keys>], "command": "class_jumper", "args": {"direction": "down, "jump_to": "class"} }
+    { "keys": [<keys>], "command": "class_jumper", "args": {"direction": "up, "jump_to": "method"} },
+    { "keys": [<keys>], "command": "class_jumper", "args": {"direction": "down, "jump_to": "method"} }
 ]
 ```
 
 where `<keys>` should be changed to proper key bindings i.e.
 ```
 [
-    { "keys": ["super+control+c+up"], "command": "class_jumper", "args": {"jump_to": "up"} },
-    { "keys": ["super+control+c+down"], "command": "class_jumper", "args": {"jump_to": "down"} }
+    { "keys": ["super+home"], "command": "class_jumper", "args": {"direction": "up, "jump_to": "class"}},
+    { "keys": ["super+end"], "command": "class_jumper", "args": {"direction": "down, "jump_to": "class"}},
+    { "keys": ["super+pageup"], "command": "class_jumper", "args": {"direction": "up, "jump_to": "method"}},
+    { "keys": ["super+pagedown"], "command": "class_jumper", "args": {"direction": "down, "jump_to": "method"}}
 ]
 ```
