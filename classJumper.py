@@ -5,69 +5,72 @@ import sublime_plugin
 class ClassJumperCommand(sublime_plugin.TextCommand):
 
     @staticmethod
-    def is_same_pointer_position(pointer_position, closes_area_to_pointer):
-        return pointer_position == closes_area_to_pointer
+    def is_same_pointer_position(pointer_position, closest_area_to_pointer):
+        return pointer_position == closest_area_to_pointer
 
     @staticmethod
-    def keep_current_class_index(
+    def keep_current_area_index(
         direction,
         pointer_position,
-        current_class,
+        current_position,
     ):
         if direction == 'up':
-            return pointer_position < current_class
+            return pointer_position < current_position
         elif direction == 'down':
-            return pointer_position > current_class
+            return pointer_position > current_position
 
     @staticmethod
     def get_new_pointer(
         direction,
-        class_positions,
-        class_index,
-        keep_current_class_index,
+        available_positions,
+        new_position_index,
+        keep_current_area_index,
         is_same_pointer_position,
     ):
         if direction == 'up':
             new_pointer = (
-                class_positions[class_index - 1] if
-                (is_same_pointer_position or keep_current_class_index) else
-                class_positions[class_index]
+                available_positions[new_position_index - 1] if
+                (is_same_pointer_position or keep_current_area_index) else
+                available_positions[new_position_index]
             )
         elif direction == 'down':
             try:
                 new_pointer = (
-                    class_positions[class_index + 1] if
-                    (is_same_pointer_position or keep_current_class_index) else
-                    class_positions[class_index]
+                    available_positions[new_position_index + 1] if
+                    (is_same_pointer_position or keep_current_area_index) else
+                    available_positions[new_position_index]
                 )
             except IndexError:
-                new_pointer = class_positions[0]
+                new_pointer = available_positions[0]
 
         return new_pointer
 
     def move_pointer(self, direction, pointer_position, jump_area):
-        class_positions = [region.begin() for region in jump_area]
-        closes_area_to_pointer = min(
-            class_positions,
+        available_positions = [region.begin() for region in jump_area]
+        closest_area_to_pointer = min(
+            available_positions,
             key=lambda x: abs(x - pointer_position)
         )
         is_same_pointer_position = self.is_same_pointer_position(
-            pointer_position, closes_area_to_pointer
+            pointer_position,
+            closest_area_to_pointer,
         )
-        class_index = (
-            class_positions.index(pointer_position) if
+        new_position_index = (
+            available_positions.index(pointer_position) if
             is_same_pointer_position else
-            class_positions.index(closes_area_to_pointer)
+            available_positions.index(closest_area_to_pointer)
         )
-        keep_current_class_index = self.keep_current_class_index(
-            direction, pointer_position, class_positions[class_index]
+        keep_current_area_index = self.keep_current_area_index(
+            available_positions[new_position_index],
+            direction,
+            pointer_position,
         )
 
         new_pointer = self.get_new_pointer(
             direction,
-            class_positions,
-            class_index,
-            keep_current_class_index,
+            available_positions,
+            new_position_index,
+            keep_current_area_index,
             is_same_pointer_position,
         )
 
